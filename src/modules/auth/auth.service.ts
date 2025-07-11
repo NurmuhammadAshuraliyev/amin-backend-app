@@ -65,12 +65,12 @@ export class AuthService {
   async adminLogin(dto: AdminLoginDto) {
     const admin = await this.prisma.admin.findFirst({
       where: {
-        OR: [{ phone: dto.identifier }, { email: dto.identifier }],
+        email: dto.email,
       },
     });
 
     if (!admin || !(await bcrypt.compare(dto.password, admin.password))) {
-      throw new UnauthorizedException('Invalid password or phone or email');
+      throw new UnauthorizedException('Invalid password or email');
     }
 
     const token = this.jwtService.sign({
@@ -91,12 +91,16 @@ export class AuthService {
   }
 
   async userRegister(dto: UserRegisterDto) {
-    const existingUser = await this.prisma.user.findUnique({
-      where: { phone: dto.phone },
+    const existingAdmin = await this.prisma.user.findFirst({
+      where: {
+        OR: [{ phone: dto.phone }, { email: dto.email }],
+      },
     });
 
-    if (existingUser) {
-      throw new ConflictException('User with this phone already exists');
+    if (existingAdmin) {
+      throw new ConflictException(
+        'User with this phone or email already exists',
+      );
     }
 
     const hashedPassword = await bcrypt.hash(dto.password, 12);
@@ -104,7 +108,7 @@ export class AuthService {
     const user = await this.prisma.user.create({
       data: {
         phone: dto.phone,
-        name: dto.name,
+        fullName: dto.fullName,
         email: dto.email,
         password: hashedPassword,
       },
@@ -119,7 +123,7 @@ export class AuthService {
       access_token: token,
       user: {
         id: user.id,
-        name: user.name,
+        fullName: user.fullName,
         phone: user.phone,
         email: user.email,
       },
@@ -127,12 +131,12 @@ export class AuthService {
   }
 
   async userLogin(dto: UserLoginDto) {
-    const user = await this.prisma.user.findUnique({
-      where: { phone: dto.phone },
+    const user = await this.prisma.user.findFirst({
+      where: { email: dto.email },
     });
 
     if (!user || !(await bcrypt.compare(dto.password, user.password))) {
-      throw new UnauthorizedException('Invalid password or phone ');
+      throw new UnauthorizedException('Invalid password or email ');
     }
 
     const token = this.jwtService.sign({
@@ -144,7 +148,7 @@ export class AuthService {
       access_token: token,
       user: {
         id: user.id,
-        name: user.name,
+        fullName: user.fullName,
         phone: user.phone,
         email: user.email,
       },

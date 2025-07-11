@@ -17,8 +17,6 @@ export class AuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
 
-    const { token } = request.cookies;
-
     const classHandel = context.getClass();
 
     const functionHandel = context.getHandler();
@@ -33,6 +31,10 @@ export class AuthGuard implements CanActivate {
     if (isPublic && !isAdmin) return true;
 
     try {
+      const authHeader = request.headers.authorization;
+
+      const token = authHeader.split(' ')[1];
+
       if (isAdmin) {
         const { userId, role } = await this.jwtService.verifyAsync(token);
 

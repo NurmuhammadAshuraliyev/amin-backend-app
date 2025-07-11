@@ -1,12 +1,5 @@
 import { Role } from '@prisma/client';
-import {
-  IsString,
-  IsOptional,
-  IsPhoneNumber,
-  MinLength,
-  IsEmail,
-  IsEnum,
-} from 'class-validator';
+import { IsString, MinLength, IsEmail, IsEnum } from 'class-validator';
 
 export class AdminRegisterDto {
   @IsString()
@@ -15,16 +8,11 @@ export class AdminRegisterDto {
   @IsString()
   lastName: string;
 
-  @IsPhoneNumber('UZ')
+  @IsString()
   phone: string;
 
-  @IsOptional()
   @IsEmail()
-  email?: string;
-
-  @IsEnum(Role)
-  @IsOptional()
-  role?: Role;
+  email: string;
 
   @IsString()
   @MinLength(6)
@@ -33,22 +21,22 @@ export class AdminRegisterDto {
 
 export class AdminLoginDto {
   @IsString()
-  identifier: string; // phone yoki email
+  email: string;
 
   @IsString()
   password: string;
 }
 
 export class UserRegisterDto {
-  @IsPhoneNumber('UZ')
+  @IsString()
   phone: string;
 
   @IsString()
-  name: string;
+  fullName: string;
 
-  @IsOptional()
   @IsEmail()
-  email?: string;
+  @IsString()
+  email: string;
 
   @IsString()
   @MinLength(6)
@@ -56,8 +44,9 @@ export class UserRegisterDto {
 }
 
 export class UserLoginDto {
-  @IsPhoneNumber('UZ')
-  phone: string;
+  @IsEmail()
+  @IsString()
+  email: string;
 
   @IsString()
   password: string;

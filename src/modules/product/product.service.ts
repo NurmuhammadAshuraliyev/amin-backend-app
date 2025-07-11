@@ -104,7 +104,7 @@ export class ProductService {
           where: { isDeleted: false },
           include: {
             user: {
-              select: { name: true },
+              select: { fullName: true },
             },
           },
           orderBy: { createdAt: 'desc' },

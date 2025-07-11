@@ -77,7 +77,7 @@ export class OrderService {
         },
         user: {
           select: {
-            name: true,
+            fullName: true,
             phone: true,
           },
         },
@@ -119,7 +119,7 @@ export class OrderService {
         take: limit,
         include: {
           user: {
-            select: { name: true, phone: true },
+            select: { fullName: true, phone: true },
           },
           orderItems: {
             include: {
@@ -150,7 +150,7 @@ export class OrderService {
       where: { id },
       include: {
         user: {
-          select: { name: true, phone: true, email: true },
+          select: { fullName: true, phone: true, email: true },
         },
         orderItems: {
           include: {
@@ -181,7 +181,7 @@ export class OrderService {
       data: { status: dto.status },
       include: {
         user: {
-          select: { name: true, phone: true },
+          select: { fullName: true, phone: true },
         },
         orderItems: {
           include: {

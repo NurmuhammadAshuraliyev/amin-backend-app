@@ -14,11 +14,11 @@ enum Role {
 }
 
 model Admin {
-  id        String   @id @default(cuid())
+  id        String   @id @default(uuid())
   firstName String
   lastName  String
   phone     String   @unique
-  email     String?  @unique
+  email     String  @unique
   role Role @default(admin) 
   password  String
   createdAt DateTime @default(now())
@@ -28,10 +28,10 @@ model Admin {
 }
 
 model User {
-  id        String   @id @default(cuid())
+  id        String   @id @default(uuid())
   phone     String   @unique
-  name      String
-  email     String?
+  fullName      String
+  email     String
   password  String
   role Role @default(user)
   createdAt DateTime @default(now())
@@ -44,7 +44,7 @@ model User {
 }
 
 model Category {
-  id          String @id @default(cuid())
+  id          String @id @default(uuid())
   name        String
   description String?
   isDeleted   Boolean @default(false)
@@ -58,7 +58,7 @@ model Category {
 }
 
 model SubCategory {
-  id          String @id @default(cuid())
+  id          String @id @default(uuid())
   name        String
   description String?
   categoryId  String
@@ -73,7 +73,7 @@ model SubCategory {
 }
 
 model Product {
-  id            String  @id @default(cuid())
+  id            String  @id @default(uuid())
   name          String
   description   String
   price         Decimal @db.Decimal(10, 2)
@@ -95,7 +95,7 @@ model Product {
 }
 
 model Order {
-  id              String      @id @default(cuid())
+  id              String      @id @default(uuid())
   userId          String
   customerName    String
   customerPhone   String
@@ -112,7 +112,7 @@ model Order {
 }
 
 model OrderItem {
-  id        String @id @default(cuid())
+  id        String @id @default(uuid())
   orderId   String
   productId String
   quantity  Int
@@ -125,7 +125,7 @@ model OrderItem {
 }
 
 model Review {
-  id        String   @id @default(cuid())
+  id        String   @id @default(uuid())
   userId    String
   productId String
   rating    Int      @db.SmallInt
@@ -142,7 +142,7 @@ model Review {
 }
 
 model Advertisement {
-  id          String   @id @default(cuid())
+  id          String   @id @default(uuid())
   title       String
   content     String
   imageUrl    String?

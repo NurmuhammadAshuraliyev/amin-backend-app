@@ -52,7 +52,7 @@ export class ReviewService {
       },
       include: {
         user: {
-          select: { name: true },
+          select: { fullName: true },
         },
         product: {
           select: { name: true },
@@ -80,7 +80,7 @@ export class ReviewService {
         take: limit,
         include: {
           user: {
-            select: { name: true },
+            select: { fullName: true },
           },
           product: {
             select: { name: true, images: true },
@@ -107,7 +107,7 @@ export class ReviewService {
       where: { id, isDeleted: false },
       include: {
         user: {
-          select: { name: true, phone: true },
+          select: { fullName: true, phone: true },
         },
         product: {
           select: { name: true, images: true },
@@ -140,7 +140,7 @@ export class ReviewService {
       data: dto,
       include: {
         user: {
-          select: { name: true },
+          select: { fullName: true },
         },
         product: {
           select: { name: true },
@@ -163,7 +163,7 @@ export class ReviewService {
       data: { response: dto.response },
       include: {
         user: {
-          select: { name: true },
+          select: { fullName: true },
         },
         product: {
           select: { name: true },

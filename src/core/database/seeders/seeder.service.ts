@@ -43,6 +43,7 @@ export class SeederService implements OnModuleInit {
           phone: phone_number,
           firstName: 'Sotvoldi',
           lastName: 'Sotvoldiyev',
+          email: 'omadbek1223erubdnx@gmail.com',
           role: 'superadmin',
         },
       });

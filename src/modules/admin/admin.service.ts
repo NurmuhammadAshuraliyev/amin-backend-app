@@ -1,5 +1,5 @@
-import { Injectable } from "@nestjs/common";
-import { PrismaService } from "../../core/database/prisma.service";
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../../core/database/prisma.service';
 
 @Injectable()
 export class AdminService {
@@ -20,16 +20,16 @@ export class AdminService {
       this.prisma.order.count(),
       this.prisma.user.count(),
       this.prisma.review.count({ where: { isDeleted: false } }),
-      this.prisma.order.count({ where: { status: "PENDING" } }),
+      this.prisma.order.count({ where: { status: 'PENDING' } }),
       this.prisma.order.aggregate({
         _sum: { totalAmount: true },
-        where: { status: "DELIVERED" },
+        where: { status: 'DELIVERED' },
       }),
       this.prisma.order.findMany({
         take: 5,
-        orderBy: { createdAt: "desc" },
+        orderBy: { createdAt: 'desc' },
         include: {
-          user: { select: { name: true } },
+          user: { select: { fullName: true } },
           orderItems: {
             include: {
               product: { select: { name: true } },
@@ -40,7 +40,7 @@ export class AdminService {
       this.prisma.product.findMany({
         take: 5,
         where: { isDeleted: false },
-        orderBy: { soldCount: "desc" },
+        orderBy: { soldCount: 'desc' },
         select: {
           id: true,
           name: true,
@@ -67,7 +67,7 @@ export class AdminService {
 
   async getOrderStats() {
     const orderStats = await this.prisma.order.groupBy({
-      by: ["status"],
+      by: ['status'],
       _count: { status: true },
     });
 
@@ -83,7 +83,7 @@ export class AdminService {
 
     const revenueData = await this.prisma.order.findMany({
       where: {
-        status: "DELIVERED",
+        status: 'DELIVERED',
         createdAt: { gte: startDate },
       },
       select: {
@@ -92,9 +92,8 @@ export class AdminService {
       },
     });
 
-    // Group by date
     const dailyRevenue = revenueData.reduce((acc, order) => {
-      const date = order.createdAt.toISOString().split("T")[0];
+      const date = order.createdAt.toISOString().split('T')[0];
       acc[date] = (acc[date] || 0) + Number(order.totalAmount);
       return acc;
     }, {});
