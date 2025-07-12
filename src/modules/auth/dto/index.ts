@@ -1,3 +1,4 @@
+import { Optional } from '@nestjs/common';
 import { Role } from '@prisma/client';
 import { IsString, MinLength, IsEmail, IsEnum } from 'class-validator';
 
@@ -29,9 +30,11 @@ export class AdminLoginDto {
 
 export class UserRegisterDto {
   @IsString()
+  @Optional()
   phone: string;
 
   @IsString()
+  @Optional()
   fullName: string;
 
   @IsEmail()
@@ -39,6 +42,7 @@ export class UserRegisterDto {
   email: string;
 
   @IsString()
+  @Optional()
   @MinLength(6)
   password: string;
 }

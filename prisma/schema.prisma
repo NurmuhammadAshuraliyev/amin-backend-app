@@ -29,18 +29,33 @@ model Admin {
 
 model User {
   id        String   @id @default(uuid())
-  phone     String   @unique
-  fullName      String
+  phone     String?   @unique
+  fullName      String?
   email     String
-  password  String
+  password  String?
   role Role @default(user)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  accounts OAuthAccount[]
 
   orders  Order[]
   reviews Review[]
 
   @@map("users")
+}
+
+model OAuthAccount{
+  id String @id @default(uuid())
+  user_id String
+  provider String
+  provider_id String
+  User User @relation(fields: [user_id],references: [id],onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([provider,provider_id])
+  @@map("oauth_accounts")
 }
 
 model Category {
