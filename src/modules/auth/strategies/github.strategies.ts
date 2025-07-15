@@ -18,7 +18,7 @@ export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
     refresh_token: string,
     profile: Profile,
     callback: any,
-  ): any {
+  ): void {
     callback(null, profile);
   }
 }
