@@ -15,6 +15,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
 
   validate(
     access_token: string,
+    refreshToken: string,
     profile: Profile,
     veriyfyCallback: VerifyCallback,
   ): any {

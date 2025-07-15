@@ -55,7 +55,7 @@ export class AuthService {
     if (!findAccount) {
       await this.prisma.oAuthAccount.create({
         data: {
-          provider: 'github',
+          provider: 'google',
           provider_id: user.sub,
           user_id: findUser?.id as string,
         },
