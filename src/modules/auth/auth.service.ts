@@ -68,16 +68,18 @@ export class AuthService {
   }
 
   async oauthGithubCallback(user: any) {
+    const [{ value: email }] = user.emails;
+
     const findUser = await this.prisma.user.findFirst({
-      where: { email: user.email },
+      where: { email: email },
       include: { accounts: true },
     });
 
     if (!findUser) {
       const userData = await this.prisma.user.create({
         data: {
-          email: user.email,
-          fullName: user.name,
+          email: email,
+          fullName: user._json.name,
         },
       });
 
